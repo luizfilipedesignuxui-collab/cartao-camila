@@ -1,0 +1,29 @@
+# dependências
+node_modules/
+
+# build
+dist/
+*.tsbuildinfo
+
+# ambiente
+.env
+.env.local
+.env.*.local
+
+# vercel
+.vercel/
+
+# temporários / capturas
+.tmp/
+tmp-*
+
+# sistema / editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# logs
+*.log
+npm-debug.log*
