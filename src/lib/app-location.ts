@@ -1,11 +1,12 @@
 import { isHttpUrl, qrPointsToLocalAddress } from "./contact.ts";
 
-export type AppView = "card" | "entrega" | "conectar" | "missing";
+export type AppView = "card" | "entrega" | "conectar" | "conexoes" | "missing";
 
 export function parsePathname(pathname: string, slug = ""): AppView {
   const clean = pathname.replace(/\/+$/, "") || "/";
   if (clean === "/entrega") return "entrega";
   if (clean === "/conectar") return "conectar";
+  if (clean === "/conexoes") return "conexoes";
   if (clean === "/") return "card";
   if (slug && clean === cardPath(slug)) return "card";
   if (!slug) return "card";
@@ -27,6 +28,11 @@ export function entregaPath(): string {
 
 export function connectPath(): string {
   return "/conectar";
+}
+
+/** Página privada da dona do cartão. Só é aberta pela entrega. */
+export function connectionsPath(): string {
+  return "/conexoes";
 }
 
 export function navigateTo(path: string): void {
