@@ -25,6 +25,11 @@ npm run build
 
 Para publicar, defina `VITE_CARD_PUBLIC_URL` com o endereço `https://` final e rode `npm run build`. Sem esse endereço, o QR usa o domínio atual e não deve ser impresso se ainda for localhost.
 
+## Conectar e conexões
+
+- **`/conectar`** (aberto pelo QR): abaixo de **Conectar no LinkedIn**, o bloco **Sua primeira mensagem** oferece três contextos (Networking, Parcerias, Oportunidades), nenhum marcado. Escolhido um, aparece a mensagem sugerida, que pode ser editada e copiada. **Enviar mensagem no LinkedIn** copia o texto e abre o perfil; a pessoa cola e envia lá, porque o LinkedIn não aceita mensagem pronta por link. O texto editado fica no `sessionStorage`. `?contexto=networking|parcerias|oportunidades` abre com o contexto marcado.
+- **`/conexoes`** (privado, `noindex`): a dona anota pessoa, contexto, próximo passo e lembrete. A lista fica só no aparelho (`localStorage`, chave `cartao:conexoes:v1`), ordenada pelo lembrete, com selos Hoje e Atrasado. **Preparar mensagem** junta as conexões marcadas e **Abrir no WhatsApp** abre `wa.me` sem número. Só se chega lá pelo botão **Minhas conexões** em `/entrega`; o cartão público nunca linka essa página.
+
 ## Replicar para outra pessoa
 
 O visual está fechado. Novos cartões, landings e sites devem ficar idênticos a este.
