@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cardLayerPath, cardPath, entryQrValue, parsePathname } from "./app-location.ts";
+import { cardLayerPath, cardPath, connectionsPath, entryQrValue, parsePathname } from "./app-location.ts";
 import { qrPointsToLocalAddress } from "./contact.ts";
 
 describe("parsePathname", () => {
@@ -9,6 +9,12 @@ describe("parsePathname", () => {
     expect(parsePathname("/", "camila-ochoa")).toBe("card");
     expect(parsePathname("/camila-ochoa", "camila-ochoa")).toBe("card");
     expect(parsePathname("/conectar", "camila-ochoa")).toBe("conectar");
+  });
+
+  it("abre Minhas conexões em /conexoes", () => {
+    expect(parsePathname("/conexoes", "camila-ochoa")).toBe("conexoes");
+    expect(parsePathname("/conexoes/", "camila-ochoa")).toBe("conexoes");
+    expect(parsePathname(connectionsPath(), "camila-ochoa")).toBe("conexoes");
   });
 
   it("não abre outro cartão quando o slug não existe", () => {

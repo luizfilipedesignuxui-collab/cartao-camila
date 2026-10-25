@@ -6,7 +6,7 @@ Três superfícies, um único visual:
 
 | Superfície | Onde vive | Papel |
 |---|---|---|
-| Cartão digital | código em `src/` · rotas `/`, `/{slug}`, `/conectar`, `/entrega` | Peça em circulação. QR, identidade, contato. |
+| Cartão digital | código em `src/` · rotas `/`, `/{slug}`, `/conectar`, `/entrega`, `/conexoes` | Peça em circulação. QR, identidade, contato. |
 | Landing | Figma página `Landing` | Página única de venda. Primeiro passo: WhatsApp. Percurso completo: LinkedIn. |
 | Site | Figma página `Site` | Presença profissional de RH, mais completa que a landing. Não copia o LinkedIn. |
 
@@ -64,6 +64,7 @@ Código. Não redesenhar componentes. Trocar só a ficha.
 | `/` e `/{slug}` | Cartão (entrada, identidade ou contato) |
 | `/conectar` | Convite LinkedIn, aberto pelo QR |
 | `/entrega` | Entrega do cartão físico |
+| `/conexoes` | Minhas conexões (privado, `noindex`, só pela entrega) |
 | qualquer outro slug | Cartão ausente |
 
 O QR **nunca** aponta para o LinkedIn. Ele aponta para a URL pública + `/conectar`.
@@ -108,6 +109,18 @@ Fatos do carrossel, nesta ordem, só se existirem na ficha:
 - Card cream LinkedIn. CTA tinta **Conectar no LinkedIn** (abre o perfil real).
 - **Ver o restante do cartão** → identidade (`?layer=identity`).
 - Se o card for mais alto que a tela, a página rola por dentro. Sem travar o cursor.
+
+##### Sua primeira mensagem
+
+Dentro do card do LinkedIn, abaixo do CTA (que não muda), nesta ordem:
+
+1. Explicação curta e a orientação **Escolha networking, parcerias ou oportunidades…**
+2. Rótulo **Contexto da conexão (opcional)** e três botões: Networking, Parcerias, Oportunidades (`role="group"` + `aria-labelledby`).
+3. Um contexto por vez, nenhum marcado por padrão. Marcado = fundo tinta + check + `aria-pressed="true"`. Tocar de novo desmarca.
+4. Com contexto: lead e destaques tirados só da ficha (`buildContextModes`), a mensagem sugerida (`buildConnectionMessage`), **Editar mensagem** e **Copiar mensagem**.
+5. A frase **Conecte-se com [primeiro nome] no LinkedIn ou envie a mensagem que você preparou.** e o botão **Enviar mensagem no LinkedIn**, que copia o texto e abre o perfil real. O LinkedIn não aceita DM com texto pronto por link: a tela avisa que a mensagem foi copiada e que é só colar e enviar.
+
+Sem contexto não há mensagem. O texto editado fica no `sessionStorage`, um por contexto. `?contexto=networking|parcerias|oportunidades` abre com o contexto marcado (`src/lib/context-mode.ts`). Os textos das mensagens são fixos; troque só a saudação pelo `firstName` da ficha.
 
 ### Comportamentos que o clone precisa manter
 
@@ -226,9 +239,22 @@ Hero idêntica em regra à landing mobile: skip, nav `SPACE_BETWEEN`, foto 160, 
 5. Preencha `publicUrl` ou `VITE_CARD_PUBLIC_URL` com o endereço final `https://`.
 6. No Figma, duplique o arquivo e troque nome, foto, textos da ficha. Mantenha frames, ordem e tokens.
 7. Rode `npm install`, `npm run dev`, `npm test`, `npm run lint`, `npm run build`.
-8. Confira `/`, `/{slug}`, `/conectar` e `/entrega`. O QR deve abrir a URL pública + `/conectar`, não localhost e não LinkedIn.
+8. Confira `/`, `/{slug}`, `/conectar`, `/entrega` e `/conexoes`. O QR deve abrir a URL pública + `/conectar`, não localhost e não LinkedIn.
 
 Se a pessoa não tiver LinkedIn, WhatsApp ou e-mail, deixe o campo vazio. Não invente. Não redesenhe o vazio.
+
+---
+
+## 5. Minhas conexões (`/conexoes`)
+
+Página privada da dona do cartão. Não entra no cartão público e não é indexada (`noindex` na página e `X-Robots-Tag` no `vercel.json`).
+
+- Acesso só pelo botão **Minhas conexões** (outline, 52px) em `/entrega`, logo depois de **Compartilhar meu cartão**.
+- Formulário **Nova conexão**: Pessoa (obrigatório), Contexto (Networking, Parceria, Oportunidade profissional), Próximo passo e Lembrete (data opcional).
+- Lista ordenada pelo lembrete mais próximo; sem lembrete vai para o fim. Selos **Hoje** e **Atrasado**. Cada item pode ser removido.
+- **Preparar mensagem** mostra a prévia das conexões marcadas; **Abrir no WhatsApp** usa `https://wa.me/?text=...` sem número. A dona escolhe o contato e confirma.
+- Dados só no aparelho: `localStorage`, chave `cartao:conexoes:v1`. Sem servidor, sem login. Trocar de celular ou limpar o navegador apaga a lista.
+- Lógica em `src/lib/connections.ts` (limites: nome 60, contexto 60, próximo passo 140).
 
 ---
 

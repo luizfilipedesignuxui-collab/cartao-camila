@@ -2,6 +2,7 @@ import { businessCard } from "../config/business-card.ts";
 import { cardLayerPath, navigateTo } from "../lib/app-location.ts";
 import { fileSlug, isHttpUrl } from "../lib/contact.ts";
 import { ActionIcon } from "./ActionIcon.tsx";
+import { FirstMessage } from "./FirstMessage.tsx";
 import { InkScene } from "./InkScene.tsx";
 import { PhotoSlot } from "./PhotoSlot.tsx";
 
@@ -67,16 +68,19 @@ export function ConnectInvite() {
               {card.role}. Só o essencial para conectar.
             </p>
             {linkedin ? (
-              <a
-                href={linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="focus-ring mt-6 flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-brand-linkedin px-5 text-base font-semibold text-cream"
-              >
-                <ActionIcon id="linkedin" tone="onMedia" />
-                Conectar no LinkedIn
-                <span className="sr-only">, abre o perfil de {card.fullName} no LinkedIn</span>
-              </a>
+              <>
+                <a
+                  href={linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="focus-ring mt-6 flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-brand-linkedin px-5 text-base font-semibold text-cream"
+                >
+                  <ActionIcon id="linkedin" tone="onMedia" />
+                  Conectar no LinkedIn
+                  <span className="sr-only">, abre o perfil de {card.fullName} no LinkedIn</span>
+                </a>
+                <FirstMessage card={card} linkedinUrl={linkedin} />
+              </>
             ) : (
               <p className="mt-5 text-sm text-muted">O perfil do LinkedIn não está disponível neste cartão.</p>
             )}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { BusinessCard } from "./components/BusinessCard.tsx";
 import { ConnectInvite } from "./components/ConnectInvite.tsx";
+import { ConnectionsView } from "./components/ConnectionsView.tsx";
 import { DeliveryView } from "./components/DeliveryView.tsx";
 import { MissingCard } from "./components/MissingCard.tsx";
 import { businessCard } from "./config/business-card.ts";
@@ -31,6 +32,7 @@ export default function App() {
 
   if (view === "entrega") return <DeliveryView />;
   if (view === "conectar") return <ConnectInvite />;
+  if (view === "conexoes") return <ConnectionsView />;
   if (view === "missing") return <MissingCard />;
   return <BusinessCard />;
 }

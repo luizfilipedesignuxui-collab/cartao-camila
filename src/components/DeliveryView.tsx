@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { businessCard } from "../config/business-card.ts";
-import { cardPath, entryQrValue, navigateTo, resolvePublicCardUrl } from "../lib/app-location.ts";
+import { cardPath, connectionsPath, entryQrValue, navigateTo, resolvePublicCardUrl } from "../lib/app-location.ts";
 import { buildShareMessage, copyText, fileSlug, shareOrCopyLink } from "../lib/contact.ts";
 import { InkScene } from "./InkScene.tsx";
 import { InstallGuide } from "./InstallGuide.tsx";
@@ -83,6 +83,13 @@ export function DeliveryView() {
             onClick={() => void shareCard()}
           >
             Compartilhar meu cartão
+          </button>
+          <button
+            type="button"
+            className="cta-outline focus-ring-cream flex min-h-[52px] items-center justify-center rounded-full px-5 text-sm font-semibold"
+            onClick={() => navigateTo(connectionsPath())}
+          >
+            Minhas conexões
           </button>
         </div>
 
